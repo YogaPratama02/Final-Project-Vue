@@ -1,58 +1,97 @@
 <template>
-    <div>
-        <v-card v-if="blog.id">
-            <v-img :src="blog.photo ? apiDomain+ blog.photo : 'https://picsum.photos/200/300'"
-            class="white--text" height="200px">
-                <v-card-title class="fill-height align-end" v-text="blog.title"></v-card-title>
-            </v-img>
+  <div class="class-wrapper">
+    <v-card v-if="blog.id" class="card-wrapper">
+      <h1>
+        {{ blog.title.toUpperCase() }}
+      </h1>
+      <v-img
+        :src="
+          blog.photo
+            ? apiDomain + blog.photo
+            : 'https://picsum.photos/900/300/'
+        "
+        class="blog-image"
+      >
+      </v-img>
+      <p class="sumber-foto">
+        sumber :
+        <a>{{ blog.photo ? apiDomain : "https://picsum.photos/" }}</a>
+      </p>
 
-            <v-card-text>
-                <v-simple-table dense>
-                    <tbody>
-                        <tr>
-                            <td><v-icon>mdi-format-title</v-icon> Judul</td>
-                            <td class="blue--text">{{blog.title}}</td>
-                        </tr>
-                        <tr>
-                            <td><v-icon>mdi-note</v-icon> Deskripsi</td>
-                            <td>{{blog.description}}</td>
-                        </tr>
-                    </tbody>
-                </v-simple-table>
-            </v-card-text>
-        </v-card>
-        <!-- <v-card v-else-if="!blog.id">
-            <h1>data tidak ditemukan</h1>
-        </v-card> -->
-    </div>
+      <p>
+        {{ blog.description }}
+      </p>
+      <p class="lastupdate">
+        Terakhir diperbarui pada tanggal {{ blog.updated_at.split(" ")[0] }}
+      </p>
+    </v-card>
+    <v-card v-else-if="!blog.id" class="card-wrapper">
+      <h1>Data belum ditemukan</h1>
+    </v-card>
+  </div>
 </template>
 
 <script>
-    export default {
-        data: () => ({
-            blog: {},
-            apiDomain: 'http://demo-api-vue.sanbercloud.com'
-        }),
-        methods: {
-            go(){
-                let {id} = this.$route.params
-                const config = {
-                    method: 'get',
-                    url : `${this.apiDomain}/api/v2/blog/${id}`
-                }
-                this.axios(config)
-                    .then(response => {
-                        let { blog } = response.data
-                        // console.log(blog.photo);
-                        this.blog = blog
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
-        },
-        created(){
-            this.go();
-        }
-    }
+export default {
+  data: () => ({
+    blog: {},
+    apiDomain: "http://demo-api-vue.sanbercloud.com",
+  }),
+  methods: {
+    go() {
+      let { id } = this.$route.params;
+      const config = {
+        method: "get",
+        url: `${this.apiDomain}/api/v2/blog/${id}`,
+      };
+      this.axios(config)
+        .then((response) => {
+          let { blog } = response.data;
+          this.blog = blog;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.go();
+  },
+};
 </script>
+
+<style lang="scss">
+.class-wrapper {
+  padding: 64px;
+
+  .card-wrapper {
+    padding: 32px;
+    .button-wrapper {
+      padding-bottom: 16px;
+    }
+    .blog-image {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-height:50%;
+    }
+    .sumber-foto {
+      text-align: center;
+      color: gray;
+      font-size: 12px;
+    }
+    h1 {
+      padding: 16px 0px;
+    }
+
+    p {
+      text-align: justify;
+    }
+
+    .lastupdate {
+      color: gray;
+      font-size: 12px;
+    }
+  }
+}
+</style>
