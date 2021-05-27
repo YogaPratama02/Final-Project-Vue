@@ -75,7 +75,7 @@
 
     <v-footer app>
       <p>
-        @YogaPratama |
+        <a href="https://github.com/YogaPratama02">@YogaPratama02</a> |
         <a href="https://github.com/ariqsyahalam">@ariqsyahalam</a>
       </p>
     </v-footer>
@@ -87,13 +87,8 @@ export default {
   // components: {Alert}, cara lain seperti dibawah
   name: "App",
   components: {
-<<<<<<< HEAD
-    Alert: () => import('./components/Alert'),
-    Dialog: () => import('./components/Dialog'),
-=======
     Alert: () => import("./components/Alert"),
     Dialog: () => import("./components/Dialog"),
->>>>>>> 51b551945468a9cbac7d7b1d37beab1539528620
   },
   data: () => ({
     drawer: true,
@@ -141,34 +136,20 @@ export default {
       this.setDialogComponent({ component: "login" });
     },
     ...mapActions({
-<<<<<<< HEAD
-      setAlert: 'alert/set',
-      setDialogComponent: 'dialog/setComponent',
-      setToken: 'auth/setToken',
-      setUser: 'auth/setUser',
-      checkToken: 'auth/checkToken',
-    }),
-    register(){
-      this.setDialogComponent({'component' : 'register'})
-    },
-  },
-  mounted(){
-    // this.snackbarStatus = true
-    if(this.token){
-      this.checkToken(this.token)
-=======
       setAlert: "alert/set",
       setDialogComponent: "dialog/setComponent",
       setToken: "auth/setToken",
       setUser: "auth/setUser",
       checkToken: "auth/checkToken",
     }),
+    register() {
+      this.setDialogComponent({ component: "register" });
+    },
   },
   mounted() {
     this.snackbarStatus = true;
     if (this.token) {
       this.checkToken(this.token);
->>>>>>> 51b551945468a9cbac7d7b1d37beab1539528620
     }
   },
 };
@@ -176,13 +157,6 @@ export default {
 
 <style>
 .v-navigation-drawer__content {
-<<<<<<< HEAD
-  background-color: #fff1e6;
-}
-.v-toolbar__content{
-  background-color: #577590;
-=======
   background-color: rgb(255, 255, 255);
->>>>>>> 51b551945468a9cbac7d7b1d37beab1539528620
 }
 </style>
