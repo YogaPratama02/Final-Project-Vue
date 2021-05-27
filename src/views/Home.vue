@@ -1,67 +1,59 @@
 <template>
-  <v-container class="ma-0 pa-0 grid-list-sm">
+  <v-container class="grid-list-sm" style="width: 100%; padding: auto">
+    <v-subheader> <h1 class="subheader-wrapper">Top Blogs</h1> </v-subheader>
     <div class="text-right">
       <v-btn small text to="/blogs" class="blue--text">
         All Blogs <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </div>
     <v-layout wrap>
-      <blog-item-component 
-      v-for="blog in blogs" 
-      :key="`blog-` + blog.id"
-      :blog="blog"></blog-item-component>
+      <blog-item-component
+        v-for="blog in blogs"
+        :key="`blog-` + blog.id"
+        :blog="blog"
+      ></blog-item-component>
     </v-layout>
-    <!-- <v-btn @click="increment(10)" class="red" dark>Tambah</v-btn>
-    {{tambah}} -->
   </v-container>
 </template>
 
 <script>
-  import BlogItemComponent from '../components/BlogItemComponent.vue'
-  import {mapGetters, mapMutations} from 'vuex'
-  export default{
-    data: () => ({
-      apiDomain: 'http://demo-api-vue.sanbercloud.com',
-      blogs: []
+import BlogItemComponent from "../components/BlogItemComponent.vue";
+import { mapGetters, mapMutations } from "vuex";
+export default {
+  data: () => ({
+    apiDomain: "http://demo-api-vue.sanbercloud.com",
+    blogs: [],
+  }),
+  components: {
+    "blog-item-component": BlogItemComponent,
+  },
+  computed: {
+    ...mapGetters({
+      tambah: "counter/count",
     }),
-    components: {
-      'blog-item-component' : BlogItemComponent
-    },
-    computed: {
-      // count() {
-      //   return this.$store.getters.count
-      // }
-      ...mapGetters({
-        'tambah' : 'counter/count'
-      })
-    },
-    methods: {
-      go(){
-        const config = {
+  },
+  methods: {
+    go() {
+      const config = {
         method: "get",
-        url: this.apiDomain + '/api/v2/blog/random/4'
-        }
-        this.axios(config)
-          .then((response) => {
-            // console.log(response.data);
-            let {blogs} = response.data
-            this.blogs = blogs
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      },
-      // increment(payload){
-      //   this.$store.commit('increment', payload)
-      // }
-      ...mapMutations({
-        'increment' : 'counter/increment'
-      })
+        url: this.apiDomain + "/api/v2/blog/random/4",
+      };
+      this.axios(config)
+        .then((response) => {
+          let { blogs } = response.data;
+          this.blogs = blogs;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    created(){
-      // console.log(this.$store.state.counter.count);
-      this.go()
-    }
-  }
+    ...mapMutations({
+      increment: "counter/increment",
+    }),
+  },
+  created() {
+    this.go();
+  },
+};
 </script>
 

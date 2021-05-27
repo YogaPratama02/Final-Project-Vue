@@ -1,6 +1,6 @@
 <template>
-  <v-container class="ma-0 pa-0 grid-list-sm">
-    <v-subheader > <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
+  <v-container class="grid-list-sm">
+    <v-subheader> <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
     <v-layout wrap class="blogitems-wrapper">
       <blog-item-component
         v-for="blog in blogs"
@@ -57,9 +57,9 @@ export default {
 </script>
 
 <style lang="scss">
-.subheader-wrapper{
-    font-size: 28px;
-    font-weight: bold;
+.subheader-wrapper {
+  font-size: 28px;
+  font-weight: bold;
 }
 .blogitems-wrapper {
   padding: 16px;

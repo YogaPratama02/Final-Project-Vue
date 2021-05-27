@@ -2,71 +2,75 @@
   <v-app>
     <Alert />
     <Dialog />
-    <v-navigation-drawer app v-model="drawer">
-      <v-list>
-        <v-list-item v-if="!guest">
-          <v-list-item-avatar>
-            <v-img
-              :src="
-                user.photo_profile
-                  ? apiDomain + user.photo_profile
-                  : 'https://randomUser.me/api/portraits/men/78.jpg'
-              "
-            ></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ user.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
 
-        <div class="pa-2" v-if="guest">
-          <v-btn block color="primary" class="mb-1" @click="login">
-            <v-icon left>mdi-lock</v-icon>
-            Login
-          </v-btn>
-          <v-btn block color="success" @click="register">
-            <v-icon left>mdi-account</v-icon>
-            Register
-          </v-btn>
-        </div>
+    <div>
+      <v-app-bar color="blue accent-4" dense dark>
+        <v-toolbar-title
+          ><h1 style="font-size: 24px">Sanbercode Blogs</h1></v-toolbar-title
+        >
 
-        <v-divider></v-divider>
+        <v-spacer></v-spacer>
 
-        <v-list-item
+        <v-btn
           v-for="(item, index) in menus"
           :key="`menu-${index}`"
           :to="item.route"
+          class="menu-button"
+          color="none"
+          elevation="0"
+          text
         >
-          <v-list-item-icon>
-            <v-icon left>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+          {{ item.title }}
+        </v-btn>
 
-      <template v-slot:append v-if="!guest">
-        <div class="pa-2">
-          <v-btn block color="red" dark @click="logout">
-            <v-icon left>mdi-lock</v-icon>
-            logout
-          </v-btn>
-        </div>
-      </template>
-    </v-navigation-drawer>
+        <v-menu left bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
 
-    <v-app-bar app color="success" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Sanbercode</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
+          <v-list>
+            <v-list-item v-if="!guest">
+              <v-list-item-avatar>
+                <v-img
+                  :src="
+                    user.photo_profile
+                      ? apiDomain + user.photo_profile
+                      : 'https://randomUser.me/api/portraits/men/78.jpg'
+                  "
+                ></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ user.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item v-if="guest">
+              <v-btn block color="primary" class="mb-1" @click="login">
+                <v-icon left>mdi-lock</v-icon>
+                Login
+              </v-btn>
+            </v-list-item>
 
-    <!-- Sizes your content based upon application components -->
-    <v-main>
-      <!-- Provides the application the proper gutter -->
+            <v-list-item v-if="guest">
+              <v-btn block color="success" @click="register">
+                <v-icon left>mdi-account</v-icon>
+                Register
+              </v-btn>
+            </v-list-item>
+            <v-list-item v-if="!guest">
+              <v-btn block color="red" dark @click="logout">
+                <v-icon left>mdi-lock</v-icon>
+                logout
+              </v-btn>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-app-bar>
+    </div>
+
+    <v-main style="width: 100%">
       <v-container fluid>
-        <!-- If using vue-router -->
         <v-slide-y-transition>
           <router-view></router-view>
         </v-slide-y-transition>
@@ -84,7 +88,6 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
-  // components: {Alert}, cara lain seperti dibawah
   name: "App",
   components: {
     Alert: () => import("./components/Alert"),
@@ -97,9 +100,6 @@ export default {
       { title: "Blogs", icon: "mdi-note", route: "/blogs" },
     ],
     apiDomain: "http://demo-api-vue.sanbercloud.com",
-    // snackbarStatus: false,
-    // snackbarText: "Anda berhasil login",
-    // guest: true
   }),
   computed: {
     ...mapGetters({
@@ -154,9 +154,15 @@ export default {
   },
 };
 </script>
-
-<style>
+<style lang="scss">
 .v-navigation-drawer__content {
   background-color: rgb(255, 255, 255);
+}
+
+.menu-button {
+  background-color: transparent !important;
+  padding: 64px;
+
+  color: white;
 }
 </style>
