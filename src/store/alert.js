@@ -7,9 +7,9 @@ export default {
     },
     mutations: {
         set: (state, payload) => {
-            state.status = payload.status
-            state.color = payload.color
-            state.text = payload.text
+                state.status = payload.status
+                state.color = payload.color
+                state.text = payload.text
             },
         },
     actions: {

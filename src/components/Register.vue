@@ -4,20 +4,31 @@
             <v-btn icon dark @click.native="close">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title>Register</v-toolbar-title>
         </v-toolbar>
         <v-divider></v-divider>
     <v-container fluid>
-        <v-form>
+        <v-form ref="form">
+            <v-text-field v-model="name" label="Name" required append-icon="mdi-account"></v-text-field>
             <v-text-field v-model="email" label="E-mail" required append-icon="mdi-email"></v-text-field>
             <v-text-field v-model="password" 
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" 
             :type="showPassword ? 'text' : 'password'" 
             required label="password" counter 
             @click:append="showPassword = !showPassword"></v-text-field>
+            <!-- <input type="file" ref="photo"
+                name="photo"> -->
+            <v-file-input
+                v-model="photo"
+                counter
+                show-size
+                accept="image/*"
+                truncate-length="14"
+                label="Foto Profile"
+            ></v-file-input>
             <div class="text-xs-center">
-                <v-btn color="success lighten-1" @click="submit">
-                    Login
+                <v-btn color="success lighten-1" @click="register">
+                    Register
                     <v-icon right dark>mdi-lock-open</v-icon>
                 </v-btn>
             </div>
@@ -31,9 +42,11 @@ import { mapActions } from 'vuex';
 export default {
     data(){
         return{
+            name: '',
             email: '',
             showPassword: false,
             password: '',
+            photo: [],
             apiDomain: 'http://demo-api-vue.sanbercloud.com'
         }
     },
@@ -45,35 +58,29 @@ export default {
         close(){
             this.$emit('closed', false)
         },
-        submit(){
+        register(){
+            // let file_input = this.$refs.photo.files[0]
+            // console.log(file_input);
+            let formData = new FormData()
+                    formData.append('name', this.name)
+                    formData.append('email', this.email)
+                    formData.append('password', this.password)
+                    formData.append('photo_profile', this.photo)
+            // console.log(formData);
+            
             const config = {
                 method: "post",
-                url: this.apiDomain + "/api/v2/auth/login",
-                data: {
-                    'email' : this.email,
-                    'password': this.password
-                }
+                url: this.apiDomain + "/api/v2/auth/register",
+                data: formData
             };
 
             this.axios(config)
                 .then((response) => {
-                    // console.log(response.data);
-                    this.setToken(response.data.access_token)
-                    this.setAlert({
-                        status: true,
-                        color: 'success',
-                        text: 'Login berhasil'
-                    })
+                    console.log(response.data);
                     this.close()
                 })
                 .catch((response) => {
                     console.log(response);
-
-                    this.setAlert({
-                        status: true,
-                        color: 'error',
-                        text: 'Login gagal :('
-                    })
                 })
         }
     }

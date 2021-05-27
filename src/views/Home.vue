@@ -11,8 +11,8 @@
       :key="`blog-` + blog.id"
       :blog="blog"></blog-item-component>
     </v-layout>
-    <v-btn @click="increment(10)" class="red" dark>Tambah</v-btn>
-    {{tambah}}
+    <!-- <v-btn @click="increment(10)" class="red" dark>Tambah</v-btn>
+    {{tambah}} -->
   </v-container>
 </template>
 
@@ -59,7 +59,7 @@
       })
     },
     created(){
-      console.log(this.$store.state.counter.count);
+      // console.log(this.$store.state.counter.count);
       this.go()
     }
   }

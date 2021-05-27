@@ -18,7 +18,7 @@
             <v-icon left>mdi-lock</v-icon>
             Login
           </v-btn>
-          <v-btn block color="success">
+          <v-btn block color="success" @click="register">
             <v-icon left>mdi-account</v-icon>
             Register
           </v-btn>
@@ -50,7 +50,7 @@
 
     <v-app-bar app color="success" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Professors Caffe</v-toolbar-title>
+      <v-toolbar-title>Sanbercode</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
 
@@ -77,7 +77,7 @@ export default {
   name: 'App',
   components: {
     Alert: () => import('./components/Alert'),
-    Dialog: () => import('./components/Dialog')
+    Dialog: () => import('./components/Dialog'),
   },
   data: () => ({
     drawer: true,
@@ -130,10 +130,13 @@ export default {
       setToken: 'auth/setToken',
       setUser: 'auth/setUser',
       checkToken: 'auth/checkToken',
-    })
+    }),
+    register(){
+      this.setDialogComponent({'component' : 'register'})
+    },
   },
   mounted(){
-    this.snackbarStatus = true
+    // this.snackbarStatus = true
     if(this.token){
       this.checkToken(this.token)
     }
@@ -143,6 +146,9 @@ export default {
 
 <style>
 .v-navigation-drawer__content {
-  background-color: rgb(233, 199, 196);
+  background-color: #fff1e6;
+}
+.v-toolbar__content{
+  background-color: #577590;
 }
 </style>
