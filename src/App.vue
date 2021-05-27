@@ -1,15 +1,21 @@
 <template>
-    <v-app>
-      <Alert />
-      <Dialog />
+  <v-app>
+    <Alert />
+    <Dialog />
     <v-navigation-drawer app v-model="drawer">
       <v-list>
         <v-list-item v-if="!guest">
           <v-list-item-avatar>
-            <v-img :src="user.photo_profile ? apiDomain + user.photo_profile : 'https://randomUser.me/api/portraits/men/78.jpg'"></v-img>
+            <v-img
+              :src="
+                user.photo_profile
+                  ? apiDomain + user.photo_profile
+                  : 'https://randomUser.me/api/portraits/men/78.jpg'
+              "
+            ></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{user.name}}</v-list-item-title>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -26,14 +32,16 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-for="(item, index) in menus"
-        :key="`menu-${index}`"
-        :to="item.route">
+        <v-list-item
+          v-for="(item, index) in menus"
+          :key="`menu-${index}`"
+          :to="item.route"
+        >
           <v-list-item-icon>
-            <v-icon left>{{item.icon}}</v-icon>
+            <v-icon left>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{item.title}}</v-list-item-title>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -66,83 +74,86 @@
     </v-main>
 
     <v-footer app>
-      @YogaPratama
+      <p>
+        @YogaPratama |
+        <a href="https://github.com/ariqsyahalam">@ariqsyahalam</a>
+      </p>
     </v-footer>
   </v-app>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
   // components: {Alert}, cara lain seperti dibawah
-  name: 'App',
+  name: "App",
   components: {
-    Alert: () => import('./components/Alert'),
-    Dialog: () => import('./components/Dialog')
+    Alert: () => import("./components/Alert"),
+    Dialog: () => import("./components/Dialog"),
   },
   data: () => ({
     drawer: true,
     menus: [
-      {title: 'Home', icon: 'mdi-home', route: '/'},
-      {title: 'Blogs', icon: 'mdi-note', route: '/blogs'},
+      { title: "Home", icon: "mdi-home", route: "/" },
+      { title: "Blogs", icon: "mdi-note", route: "/blogs" },
     ],
-    apiDomain: 'http://demo-api-vue.sanbercloud.com'
+    apiDomain: "http://demo-api-vue.sanbercloud.com",
     // snackbarStatus: false,
     // snackbarText: "Anda berhasil login",
     // guest: true
   }),
   computed: {
     ...mapGetters({
-      guest: 'auth/guest',
-      user: 'auth/user',
-      token: 'auth/token'
-    })
+      guest: "auth/guest",
+      user: "auth/user",
+      token: "auth/token",
+    }),
   },
   methods: {
-    logout(){
+    logout() {
       let config = {
-        method: 'post',
-        url: 'http://demo-api-vue.sanbercloud.com/api/v2/auth/logout',
+        method: "post",
+        url: "http://demo-api-vue.sanbercloud.com/api/v2/auth/logout",
         headers: {
-          'Authorization': 'Bearer ' + this.token
-        }
-      }
+          Authorization: "Bearer " + this.token,
+        },
+      };
 
       this.axios(config)
         .then(() => {
-          this.setToken('')
-          this.setUser({})
+          this.setToken("");
+          this.setUser({});
           this.setAlert({
             status: true,
             color: "success",
-            text: "Anda berhasil logout"
-          })
+            text: "Anda berhasil logout",
+          });
         })
         .catch((response) => {
           console.log(response);
-        })
+        });
     },
-    login(){
-      this.setDialogComponent({'component' : 'login'})
+    login() {
+      this.setDialogComponent({ component: "login" });
     },
     ...mapActions({
-      setAlert: 'alert/set',
-      setDialogComponent: 'dialog/setComponent',
-      setToken: 'auth/setToken',
-      setUser: 'auth/setUser',
-      checkToken: 'auth/checkToken',
-    })
+      setAlert: "alert/set",
+      setDialogComponent: "dialog/setComponent",
+      setToken: "auth/setToken",
+      setUser: "auth/setUser",
+      checkToken: "auth/checkToken",
+    }),
   },
-  mounted(){
-    this.snackbarStatus = true
-    if(this.token){
-      this.checkToken(this.token)
+  mounted() {
+    this.snackbarStatus = true;
+    if (this.token) {
+      this.checkToken(this.token);
     }
-  }
+  },
 };
 </script>
 
 <style>
 .v-navigation-drawer__content {
-  background-color: rgb(233, 199, 196);
+  background-color: rgb(255, 255, 255);
 }
 </style>
