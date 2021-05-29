@@ -1,25 +1,45 @@
 <template>
-  <v-container class="grid-list-sm">
-    <v-subheader> <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
-    <v-layout wrap class="blogitems-wrapper">
-      <blog-item-component
-        v-for="blog in blogs"
-        :key="`blog-` + blog.id"
-        :blog="blog"
-      >
-      </blog-item-component>
-    </v-layout>
-    <v-pagination
-      v-model="page"
-      @input="go"
-      :length="lengthPage"
-      :total-visible="perPage"
-    ></v-pagination>
-  </v-container>
+  <div>
+    <button v-if="!guest && !newBlog.add" @click="clickNewBlog()">
+      Create New Blog
+    </button>
+    <div v-if="newBlog.add">
+      <button @click="createNewBlog()">Create</button>
+      <button @click="clickNewBlog()">Cancel</button>
+      <br />
+      <input type="textarea" v-model="newBlog.title" placeholder="title..." />
+      <br />
+      <input
+        type="textarea"
+        v-model="newBlog.description"
+        placeholder="description..."
+      />
+    </div>
+    <v-container v-if="!newBlog.add" class="grid-list-sm">
+      <v-subheader> <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
+      <v-layout wrap class="blogitems-wrapper">
+        <blog-item-component
+          v-for="blog in blogs"
+          :key="`blog-` + blog.id"
+          :blog="blog"
+        >
+        </blog-item-component>
+      </v-layout>
+      <v-pagination
+        v-model="page"
+        @input="go"
+        :length="lengthPage"
+        :total-visible="perPage"
+      ></v-pagination>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import BlogItemComponent from "../components/BlogItemComponent.vue";
+import { mapGetters } from "vuex";
+const FormData = require("form-data");
+
 export default {
   data: () => ({
     apiDomain: "http://demo-api-vue.sanbercloud.com",
@@ -27,9 +47,21 @@ export default {
     page: 0,
     lengthPage: 0,
     perPage: 0,
+    newBlog: {
+      add: false,
+      title: "",
+      description: "",
+    },
   }),
   components: {
     "blog-item-component": BlogItemComponent,
+  },
+  computed: {
+    ...mapGetters({
+      guest: "auth/guest",
+      user: "auth/user",
+      token: "auth/token",
+    }),
   },
   methods: {
     go() {
@@ -49,7 +81,33 @@ export default {
           console.log(error);
         });
     },
+    clickNewBlog() {
+      this.newBlog.add = !this.newBlog.add;
+    },
+    createNewBlog() {
+      let form = new FormData();
+      form.append("title", this.newBlog.title);
+      form.append("description", this.newBlog.description);
+      const config = {
+        method: "post",
+        url: `${this.apiDomain}/api/v2/blog`,
+        data: form,
+        headers: {
+          Authorization: "Bearer " + this.token,
+          Accept: "application/json",
+        },
+      };
+      this.axios(config)
+        .then(() => {
+          this.clickNewBlog();
+          this.go();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
+
   created() {
     this.go();
   },
