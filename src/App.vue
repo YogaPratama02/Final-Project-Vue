@@ -81,6 +81,7 @@
       <p>
         <a href="https://github.com/YogaPratama02">@YogaPratama02</a> |
         <a href="https://github.com/ariqsyahalam">@ariqsyahalam</a>
+        <a href="https://github.com/muhammadisan">@muhammadisan</a>
       </p>
     </v-footer>
   </v-app>
