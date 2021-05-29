@@ -20,6 +20,15 @@
         class="blog-image"
       >
       </v-img>
+      <button v-if="!newPhoto" @click="clickNewPhoto()">
+        Upload New Photo
+      </button>
+      <div v-else>
+        <input type="file" accept="image/*" @change="onFileChange" />
+        <br />
+        <button @click="uploadPhoto()">Upload</button>
+        <button @click="clickNewPhoto()">Cancel</button>
+      </div>
       <p class="sumber-foto">
         sumber :
         <a>{{ blog.photo ? apiDomain : "https://picsum.photos/" }}</a>
@@ -48,6 +57,8 @@ export default {
     blog: {},
     apiDomain: "http://demo-api-vue.sanbercloud.com",
     isEdit: false,
+    newPhoto: false,
+    photo: null,
   }),
   computed: {
     ...mapGetters({
@@ -98,7 +109,7 @@ export default {
           console.log(error);
         });
     },
-    del () {
+    del() {
       let { id } = this.$route.params;
       const config = {
         method: "post",
@@ -109,7 +120,34 @@ export default {
       };
       this.axios(config)
         .then(() => {
-          this.$router.replace("/")
+          this.$router.replace("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    clickNewPhoto() {
+      this.newPhoto = !this.newPhoto;
+    },
+    onFileChange(event) {
+      this.photo = event.target.files[0];
+    },
+    uploadPhoto() {
+      let { id } = this.$route.params;
+      let form = new FormData();
+      form.append("photo", this.photo);
+      const config = {
+        method: "post",
+        url: `${this.apiDomain}/api/v2/blog/${id}/upload-photo`,
+        data: form,
+        headers: {
+          Authorization: "Bearer " + this.token,
+        },
+      };
+      this.axios(config)
+        .then(() => {
+          this.clickNewPhoto();
+          this.go();
         })
         .catch((error) => {
           console.log(error);
