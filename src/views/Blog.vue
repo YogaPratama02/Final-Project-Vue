@@ -2,17 +2,17 @@
   <div class="class-wrapper">
     <v-card v-if="blog.id" class="card-wrapper">
       <div v-if="!guest && !isEdit">
-        <button @click="edit()">Edit</button>
-        <button @click="del()">Delete</button>
+        <v-btn color="green accent-4" @click="edit()"> <v-icon left>mdi-briefcase-upload</v-icon>Edit</v-btn>
+        <v-btn color="red lighten-1 ml-3" @click="del()"><v-icon left>mdi-delete</v-icon>Delete</v-btn>
       </div>
       <div v-if="!guest && isEdit">
-        <button @click="update()">Update</button>
-        <button @click="edit()">Cancel</button>
+        <v-btn color="green accent-4" @click="update()"> <v-icon left>mdi-briefcase-upload</v-icon>Update</v-btn>
+        <v-btn color="grey ml-3" @click="edit()">Cancel</v-btn>
       </div>
       <h1 v-if="!isEdit">
         {{ blog.title.toUpperCase() }}
       </h1>
-      <input v-else type="text" v-model="blog.title" />
+      <v-text-field v-else type="text" v-model="blog.title"></v-text-field>
       <v-img
         :src="
           blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/900/300/'
@@ -20,14 +20,22 @@
         class="blog-image"
       >
       </v-img>
-      <button v-if="!newPhoto" @click="clickNewPhoto()">
+      <v-btn color="green accent-4 mt-2" v-if="!newPhoto" @click="clickNewPhoto()">
         Upload New Photo
-      </button>
-      <div v-else>
-        <input type="file" accept="image/*" @change="onFileChange" />
-        <br />
-        <button @click="uploadPhoto()">Upload</button>
-        <button @click="clickNewPhoto()">Cancel</button>
+      </v-btn>
+      <div v-else class="mt-2">
+        <!-- <input type="file" accept="image/*" @change="onFileChange" />
+        <br /> -->
+        <v-file-input
+          v-model="photo_profile"
+          counter
+          show-size
+          accept="image/*"
+          truncate-length="14"
+          label="Update Foto Profile"
+        ></v-file-input>
+        <v-btn color="green accent-4" @click="uploadPhoto()"><v-icon left>mdi-briefcase-upload</v-icon>Upload</v-btn>
+        <v-btn color="grey ml-3" @click="clickNewPhoto()">Cancel</v-btn>
       </div>
       <p class="sumber-foto">
         sumber :
@@ -49,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions ,mapGetters } from "vuex";
 const FormData = require("form-data");
 
 export default {
@@ -59,6 +67,7 @@ export default {
     isEdit: false,
     newPhoto: false,
     photo: null,
+    photo_profile: []
   }),
   computed: {
     ...mapGetters({
@@ -68,6 +77,10 @@ export default {
     }),
   },
   methods: {
+    ...mapActions({
+      setAlert: "alert/set",
+      setToken: "auth/setToken",
+    }),
     go() {
       let { id } = this.$route.params;
       const config = {
@@ -103,6 +116,11 @@ export default {
       this.axios(config)
         .then(() => {
           this.edit();
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Berhasil mengubah data",
+          });
           this.go();
         })
         .catch((error) => {
@@ -121,6 +139,11 @@ export default {
       this.axios(config)
         .then(() => {
           this.$router.replace("/");
+          this.setAlert({
+            status: true,
+            color: "red",
+            text: "Berhasil menghapus data",
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -129,13 +152,10 @@ export default {
     clickNewPhoto() {
       this.newPhoto = !this.newPhoto;
     },
-    onFileChange(event) {
-      this.photo = event.target.files[0];
-    },
     uploadPhoto() {
       let { id } = this.$route.params;
       let form = new FormData();
-      form.append("photo", this.photo);
+      form.append("photo", this.photo_profile);
       const config = {
         method: "post",
         url: `${this.apiDomain}/api/v2/blog/${id}/upload-photo`,

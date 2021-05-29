@@ -1,19 +1,22 @@
 <template>
   <div>
-    <button v-if="!guest && !newBlog.add" @click="clickNewBlog()">
+    <v-btn v-if="!guest && !newBlog.add" color="success" class="mb-1" @click="clickNewBlog()">
+        <v-icon left>mdi-plus</v-icon>
+        Create New Blog
+    </v-btn>
+    <!-- <button v-if="!guest && !newBlog.add" @click="clickNewBlog()">
       Create New Blog
-    </button>
+    </button> -->
     <div v-if="newBlog.add">
-      <button @click="createNewBlog()">Create</button>
-      <button @click="clickNewBlog()">Cancel</button>
-      <br />
-      <input type="textarea" v-model="newBlog.title" placeholder="title..." />
-      <br />
-      <input
+      <v-text-field type="textarea" v-model="newBlog.title" placeholder="title..." required></v-text-field>
+      <v-text-field
         type="textarea"
         v-model="newBlog.description"
         placeholder="description..."
-      />
+        required
+      ></v-text-field>
+      <v-btn color="grey" @click="clickNewBlog()">Cancel</v-btn>
+      <v-btn color="green accent-4 ml-3" @click="createNewBlog()"> <v-icon left>mdi-plus</v-icon>Create</v-btn>
     </div>
     <v-container v-if="!newBlog.add" class="grid-list-sm">
       <v-subheader> <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
@@ -37,7 +40,7 @@
 
 <script>
 import BlogItemComponent from "../components/BlogItemComponent.vue";
-import { mapGetters } from "vuex";
+import { mapActions ,mapGetters } from "vuex";
 const FormData = require("form-data");
 
 export default {
@@ -64,6 +67,10 @@ export default {
     }),
   },
   methods: {
+    ...mapActions({
+      setAlert: "alert/set",
+      setToken: "auth/setToken",
+    }),
     go() {
       const config = {
         method: "get",
@@ -100,6 +107,13 @@ export default {
       this.axios(config)
         .then(() => {
           this.clickNewBlog();
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Berhasil menambahkan data",
+          });
+          this.newBlog.title = ''
+          this.newBlog.description = ''
           this.go();
         })
         .catch((error) => {
