@@ -59,7 +59,7 @@ export default {
       showPassword: false,
       password: "",
       photo: [],
-      apiDomain: "http://demo-api-vue.sanbercloud.com",
+      apiDomain: "https://demo-api-vue.sanbercloud.com",
     };
   },
   methods: {
