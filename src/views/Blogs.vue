@@ -4,17 +4,15 @@
         <v-icon left>mdi-plus</v-icon>
         Create New Blog
     </v-btn>
-    <!-- <button v-if="!guest && !newBlog.add" @click="clickNewBlog()">
-      Create New Blog
-    </button> -->
     <div v-if="newBlog.add">
       <v-text-field type="textarea" v-model="newBlog.title" placeholder="title..." required></v-text-field>
-      <v-text-field
+      <v-textarea
         type="textarea"
+        auto-grow
         v-model="newBlog.description"
         placeholder="description..."
         required
-      ></v-text-field>
+      ></v-textarea>
       <v-btn color="grey" @click="clickNewBlog()">Cancel</v-btn>
       <v-btn color="green accent-4 ml-3" @click="createNewBlog()"> <v-icon left>mdi-plus</v-icon>Create</v-btn>
     </div>

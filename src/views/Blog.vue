@@ -45,7 +45,7 @@
       <p v-if="!isEdit">
         {{ blog.description }}
       </p>
-      <v-text-field v-else type="text" v-model="blog.description"></v-text-field>
+      <v-textarea v-else auto-grow type="text" v-model="blog.description"></v-textarea>
       <p class="lastupdate">
         Terakhir diperbarui pada tanggal {{ blog.updated_at.split(" ")[0] }}
       </p>
