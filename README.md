@@ -1,24 +1,30 @@
-# vue-batch-sanbercode
+# VueJS Sanbercode Final Project
 
-## Project setup
-```
-npm install
-```
+<li>
+Implement the Authentication process.
+</li>
+<li>
+Implement the CRUD process.
+</li>
+<li>
+Implement styling using Vuetify
+</li>
+<br>
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Group 3
 
-### Compiles and minifies for production
-```
-npm run build
-```
+<p>
+Muhammad Ihsan ( @isan_l )<br>
+Reyhan Ariq Syahalam ( @ariqsyahalam )<br>
+Yoga Pratama Satya Bima ( @SatyaBima )
+</p>
+<br>
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Link Demo
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Video](https://drive.google.com/drive/folders/1khnKJicyMJFNGtTJlOOCgTqcZIi5HfYo?usp=sharing)
+<br>
+
+## Link Screenshot
+
+[Screenshot](https://drive.google.com/drive/folders/1khnKJicyMJFNGtTJlOOCgTqcZIi5HfYo?usp=sharing)
