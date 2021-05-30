@@ -1,14 +1,15 @@
 <template>
   <div>
-    <v-btn v-if="!guest && !newBlog.add" color="success" class="mb-1" @click="clickNewBlog()">
-        <v-icon left>mdi-plus</v-icon>
-        Create New Blog
-    </v-btn>
     <!-- <button v-if="!guest && !newBlog.add" @click="clickNewBlog()">
       Create New Blog
     </button> -->
     <div v-if="newBlog.add">
-      <v-text-field type="textarea" v-model="newBlog.title" placeholder="title..." required></v-text-field>
+      <v-text-field
+        type="textarea"
+        v-model="newBlog.title"
+        placeholder="title..."
+        required
+      ></v-text-field>
       <v-text-field
         type="textarea"
         v-model="newBlog.description"
@@ -16,10 +17,22 @@
         required
       ></v-text-field>
       <v-btn color="grey" @click="clickNewBlog()">Cancel</v-btn>
-      <v-btn color="green accent-4 ml-3" @click="createNewBlog()"> <v-icon left>mdi-plus</v-icon>Create</v-btn>
+      <v-btn color="green accent-4 ml-3" @click="createNewBlog()">
+        <v-icon left>mdi-plus</v-icon>Create</v-btn
+      >
     </div>
     <v-container v-if="!newBlog.add" class="grid-list-sm">
       <v-subheader> <h1 class="subheader-wrapper">Blogs</h1> </v-subheader>
+      <v-btn
+        v-if="!guest && !newBlog.add"
+        color="success"
+        class="mb-1 pa-2"
+
+        @click="clickNewBlog()"
+      >
+        <v-icon left>mdi-plus</v-icon>
+        Create New Blog
+      </v-btn>
       <v-layout wrap class="blogitems-wrapper">
         <blog-item-component
           v-for="blog in blogs"
@@ -40,7 +53,7 @@
 
 <script>
 import BlogItemComponent from "../components/BlogItemComponent.vue";
-import { mapActions ,mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 const FormData = require("form-data");
 
 export default {
@@ -112,8 +125,8 @@ export default {
             color: "success",
             text: "Berhasil menambahkan data",
           });
-          this.newBlog.title = ''
-          this.newBlog.description = ''
+          this.newBlog.title = "";
+          this.newBlog.description = "";
           this.go();
         })
         .catch((error) => {
