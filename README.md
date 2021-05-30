@@ -22,7 +22,7 @@ Yoga Pratama Satya Bima ( @SatyaBima )
 
 ## Link Demo
 
-[Video](https://drive.google.com/drive/folders/1khnKJicyMJFNGtTJlOOCgTqcZIi5HfYo?usp=sharing)
+[Video](https://drive.google.com/file/d/11ul5FsSyTHd51KKLrGL4gHCA8ntwFlMn/view?usp=sharing)
 <br>
 
 ## Link Screenshot

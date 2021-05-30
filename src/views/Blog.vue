@@ -20,10 +20,10 @@
         class="blog-image"
       >
       </v-img>
-      <v-btn color="green accent-4 mt-2" v-if="!newPhoto" @click="clickNewPhoto()">
+      <v-btn color="green accent-4 mt-2" v-if="!newPhoto && !guest" @click="clickNewPhoto()">
         Upload New Photo
       </v-btn>
-      <div v-else class="mt-2">
+      <div v-if="newPhoto && !guest" class="mt-2" >
         <v-file-input
           v-model="photo_profile"
           counter
